@@ -4,7 +4,6 @@
 package finident
 
 import (
-	"errors"
 	"fmt"
 	"strconv"
 )
@@ -22,11 +21,11 @@ type LeiError error
 func ValidateLEI(lei string) (bool, error) {
 	// Validate length
 	if len(lei) != 20 {
-		return false, LeiError(errors.New("Wrong length of LEI code"))
+		return false, LeiError(fmt.Errorf("Wrong length of LEI code, %v bytes", len(lei)))
 	}
 	// Validate reserved characters
 	if lei[4] != '0' || lei[5] != '0' {
-		return false, LeiError(errors.New("Reserved charaters 5 & 6 are not zero"))
+		return false, LeiError(fmt.Errorf("Reserved charaters 5 & 6 are not zero"))
 	}
 	// Charaterset A-Z
 	for _, r := range lei {
@@ -92,7 +91,7 @@ func Validatemod97(s string) bool {
 }
 
 // CalculateChecksum takes a string and returns the next two characters that
-// ,when appended to the string, results in a "stringvalue mod 97 == 1"
+//, when appended to the string, results in a "stringvalue mod 97 == 1"
 func CalculateChecksum(s string) string {
 	return strconv.Itoa(98 - ((100 * int(mod97([]byte(s)))) % 97))
 }
@@ -125,9 +124,8 @@ func mod97(s []byte) int64 {
 			checksum *= 10
 			checksum += int64(r) - numshift
 		} else {
-			panic("wtf")
+			panic("undefined char for mod 97")
 		}
-		//fmt.Println("D:", checksum)
 		if (i+1)%8 == 0 {
 			checksum = checksum % 97
 		}
