@@ -1,13 +1,17 @@
-# Financial identifiers validation library 
-MIT License Copyright (c) 2016,   robfordww
+# Financial identifiers validation library
+MIT License Copyright (c) 2017,   robfordww
 
 
 #FUNCTIONS
 ```
 func CalculateChecksum(s string) string
     CalculateChecksum takes a string and returns the next two characters
-    that ,when appended to the string, results in a "stringvalue mod 97 ==
+    that , when appended to the string, results in a "stringvalue mod 97 ==
     1"
+
+func ValidateISIN(isin string) (bool, error)
+    ValidateISIN takes an ISIN (ISO 6166) as string and validates the
+    checkdigit
 
 func ValidateLEI(lei string) (bool, error)
     ValidateLEI takes a possible LEI string as input and returns a boolean
@@ -18,4 +22,5 @@ func Validatemod97(s string) bool
     Validatemod97 takes a string as parameter and returns true if mod 97 of
     the string, interpreted as a number, returns 1. Letters A-Z are
     converted to numbers 10-34
+
 ```
