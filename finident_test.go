@@ -18,28 +18,15 @@ func TestISIN(t *testing.T) {
 	}
 }
 
+var valid = []string{"GB00B0SWJX34",
+	"US25152CMN38", "US0378331005", "LI0123534161", "LI0123534146", "DE0009750026",
+	"AT0000A0GWN4", "AT0000821095", "AT0000708367", "DE000A0M80H2", "AT0000A0HQY1",
+	"AT0000A0V5U6", "AT0000824701", "AT0000855820", "AT0000622923", "AT0000A07RY4",
+	"AT0000736392", "AT0000A07RZ1", "AT0000793732", "AT0000835681", "AT0000A0HQX3",
+	"AT0000855846", "AT0000855861", "AT0000858204", "AT0000A0HR07", "AT0000A00LF1",
+	"AT0000A07RW8", "AT0000A07RX6"}
+
 func BenchmarkISINValidation(b *testing.B) {
-	valid := []string{"GB00B0SWJX34",
-		"US25152CMN38", "US0378331005", "LI0123534161", "LI0123534146", "DE0009750026",
-		"AT0000A0GWN4", "AT0000821095", "AT0000708367", "DE000A0M80H2", "AT0000A0HQY1",
-		"AT0000A0V5U6", "AT0000824701", "AT0000855820", "AT0000622923", "AT0000A07RY4",
-		"AT0000736392", "AT0000A07RZ1", "AT0000793732", "AT0000835681", "AT0000A0HQX3",
-		"AT0000855846", "AT0000855861", "AT0000858204", "AT0000A0HR07", "AT0000A00LF1",
-		"AT0000A07RW8", "AT0000A07RX6"}
-
-	/*
-		b.RunParallel(func(pb *testing.PB) {
-			i := 0
-			for pb.Next() {
-				if r, e :=
-					ValidateISIN(valid[i%len(valid)]); r != true {
-					b.Errorf("Validation failed. %v", e)
-					b.FailNow()
-				}
-				i++
-			}
-		})*/
-
 	for i := 0; i < b.N; i++ {
 		if r, e :=
 			ValidateISIN(valid[i%len(valid)]); r != true {
@@ -47,6 +34,19 @@ func BenchmarkISINValidation(b *testing.B) {
 			b.FailNow()
 		}
 	}
+}
+
+func BenchmarkISINInParrallell(v *testing.B) {
+	i := 0
+	v.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			if r, e :=
+				ValidateISIN(valid[i%len(valid)]); r != true {
+				v.Errorf("Validation failed. %v", e)
+			}
+			i++
+		}
+	})
 }
 
 // LEI code tests
@@ -69,16 +69,16 @@ func TestValidateLEICodes(t *testing.T) {
 
 func TestValidationOfMod97(t *testing.T) {
 	if !Validatemod97("000100001234567890194252950") {
-		t.Fail()
+		t.Error("000100001234567890194252950")
 	}
 	if Validatemod97("00010000123456789019425295C") {
-		t.Fail()
+		t.Error("00010000123456789019425295C")
 	}
 	if Validatemod97("0001000012345678901942529B0") {
-		t.Fail()
+		t.Error("0001000012345678901942529B0")
 	}
-	if !Validatemod97("815600a0B9FB2B70AA10") {
-		t.Fail()
+	if Validatemod97("815600a0B9FB2B70AA10") {
+		t.Error("815600a0B9FB2B70AA10")
 	}
 }
 
