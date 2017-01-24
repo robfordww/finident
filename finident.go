@@ -43,8 +43,7 @@ func ValidateLEI(lei string) (bool, error) {
 
 // ValidateISIN takes an ISIN (ISO 6166) as string and validates the checkdigit
 func ValidateISIN(isin string) (bool, error) {
-	bytestr := []byte(isin)
-	if l := len(bytestr); l != 12 {
+	if l := len(isin); l != 12 {
 		return false, fmt.Errorf("Invalid length of ISIN (length:%v)", l)
 	}
 	if !(isA2Z(isin[0]) && isA2Z(isin[1])) {
@@ -52,8 +51,8 @@ func ValidateISIN(isin string) (bool, error) {
 	}
 	var isinchecksum int
 	var poslogic = 1
-	for i := range bytestr {
-		v := bytestr[len(bytestr)-i-1] // reverse scan string
+	for i := range isin {
+		v := isin[len(isin)-i-1] // reverse scan string
 		if isA2Z(v) {
 			fd := int(v-charshift) / 10 // first digit
 			sd := int(v-charshift) % 10 // second digit
@@ -119,6 +118,7 @@ func mod97(s []byte) int64 {
 			checksum *= 100
 			checksum += int64(r) - charshift
 		} else if r >= 'a' && r <= 'z' {
+			checksum *= 100
 			checksum += int64(r - charshift)
 		} else if r >= '0' && r <= '9' {
 			checksum *= 10
