@@ -2,7 +2,7 @@
 MIT License Copyright (c) 2017,   robfordww
 
 
-#FUNCTIONS
+# FUNCTIONS
 ```
 func CalculateChecksum(s string) string
     CalculateChecksum takes a string and returns the next two characters
