@@ -1,6 +1,6 @@
-// Package finident is a library for Financial identifiers validation
+// Package finident is a toolbox for various Financial identifiers
 // MIT License
-// Copyright (c) 2016 robfordww
+// Copyright (c) 2019 robfordww
 package finident
 
 import (
