@@ -5,7 +5,12 @@ import (
 )
 
 func TestCFIs(t *testing.T) {
-	okList := []string{"ESVTOB", "EFRRCN", "DDBVGF", "DMBXXR"}
+	okList := []string{
+		"ESVTOB", "EFRRCN", "DDBVGF",
+		"DMBXXR", "MMNXXX", "TMXXXX",
+		"KYXXXX", "JTAXFP", "JEFXFP",
+		"HRRAVE", "SEBMXE", "SCITCC",
+	}
 	failList := []string{"ESVTOZ", "EFRRECN", "ZDBVGF", "CPBXXR"}
 	for i := range okList {
 		if !IsValidCFI(okList[i]) {
