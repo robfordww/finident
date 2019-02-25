@@ -8,12 +8,12 @@ MIT License Copyright (c) 2019, robfordww
 ```
 func CalculateChecksum(s string) string
     CalculateChecksum takes a string and returns the next two characters
-    that , when appended to the string, results in a "stringvalue mod 97 ==
+    that, when appended to the string, results in a "stringvalue mod 97 ==
     1"
 
 func GenCFICombinations() []string
-    GenCFICombinations returns a list of all valid CFIs based on the private
-    validCFI map. This validator is based on ESMAs CFI list published here
+    GenCFICombinations returns a list of all valid CFIs. This validator is
+    based on ESMAs CFI list published here
     https://www.esma.europa.eu/file/20301/download?token=6K3VKc5m
 
 func IsValidCFI(cfi string) bool
@@ -34,5 +34,6 @@ func Validatemod97(s string) bool
     Validatemod97 takes a string as parameter and returns true if mod 97 of
     the string, interpreted as a number, returns 1. Letters A-Z are
     converted to numbers 10-34
+
 
 ```

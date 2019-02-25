@@ -89,8 +89,8 @@ func Validatemod97(s string) bool {
 	return true
 }
 
-// CalculateChecksum takes a string and returns the next two characters that
-//, when appended to the string, results in a "stringvalue mod 97 == 1"
+// CalculateChecksum takes a string and returns the next two characters that,
+// when appended to the string, results in a "stringvalue mod 97 == 1"
 func CalculateChecksum(s string) string {
 	return strconv.Itoa(98 - ((100 * int(mod97([]byte(s)))) % 97))
 }
