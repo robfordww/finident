@@ -115,7 +115,7 @@ func IsValidCFI(cfi string) bool {
 	return true
 }
 
-// GenCFICombinations returns a list of all valid CFIs based on the private validCFI map.
+// GenCFICombinations returns a list of all valid CFIs.
 // This validator is based on ESMAs CFI list published here https://www.esma.europa.eu/file/20301/download?token=6K3VKc5m
 func GenCFICombinations() []string {
 	cfis := make([]string, 0, 10000)
