@@ -14,12 +14,12 @@ func CalculateChecksum(s string) string
 func GenCFICombinations() []string
     GenCFICombinations returns a list of all valid CFIs. This validator is
     based on ESMAs CFI list published here
-    [https://www.esma.europa.eu/file/20301/download?token=6K3VKc5m](https://www.esma.europa.eu/document/firds-cfi-validations)
+    https://www.esma.europa.eu/file/20301/download?token=6K3VKc5m
 
 func IsValidCFI(cfi string) bool
     IsValidCFI returns true if the CFI string is a valid CFI code, and false
     otherwise. This validator is based on ESMAs CFI list published here
-    [https://www.esma.europa.eu/file/20301/download?token=6K3VKc5m](https://www.esma.europa.eu/document/firds-cfi-validations)
+    https://www.esma.europa.eu/file/20301/download?token=6K3VKc5m
 
 func ValidateISIN(isin string) (bool, error)
     ValidateISIN takes an ISIN (ISO 6166) as string and validates the
