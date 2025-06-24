@@ -1,7 +1,7 @@
 # Financial identifiers validation library
 Functions for validating Legal Entity Identifier (LEI), as described in ISO 17442,  International Securities Identification Numbers (ISIN) codes, and CFI codes (ISO 10962) generator and validator.
 
-MIT License Copyright (c) 2019, robfordww
+MIT License Copyright (c) 2025, robfordww
 
 
 # FUNCTIONS
