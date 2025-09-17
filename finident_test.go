@@ -37,14 +37,13 @@ func BenchmarkISINValidation(b *testing.B) {
 }
 
 func BenchmarkISINInParrallell(v *testing.B) {
-	i := 0
 	v.RunParallel(func(pb *testing.PB) {
+		idx := 0
 		for pb.Next() {
-			if r, e :=
-				ValidateISIN(valid[i%len(valid)]); r != true {
+			if r, e := ValidateISIN(valid[idx%len(valid)]); r != true {
 				v.Errorf("Validation failed. %v", e)
 			}
-			i++
+			idx++
 		}
 	})
 }
