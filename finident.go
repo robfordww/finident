@@ -21,22 +21,22 @@ type LeiError error
 func ValidateLEI(lei string) (bool, error) {
 	// Validate length
 	if len(lei) != 20 {
-		return false, LeiError(fmt.Errorf("Wrong length of LEI code, %v bytes", len(lei)))
+		return false, LeiError(fmt.Errorf("wrong length of LEI code, %v bytes", len(lei)))
 	}
 	// Validate reserved characters
 	if lei[4] != '0' || lei[5] != '0' {
-		return false, LeiError(fmt.Errorf("Reserved charaters 5 & 6 are not zero"))
+		return false, LeiError(fmt.Errorf("reserved characters 5 & 6 are not zero"))
 	}
 	// Charaterset A-Z
 	for _, r := range lei {
 		if !((r >= 'A' && r <= 'Z') || (r >= '0' && r <= '9')) {
-			return false, LeiError(fmt.Errorf("Invalid character %q in LEI-code", r))
+			return false, LeiError(fmt.Errorf("invalid character %q in LEI-code", r))
 		}
 	}
 	// Consider only upper case chars
 	r := Validatemod97(lei)
 	if !r {
-		return r, LeiError(fmt.Errorf("Checksum failed"))
+		return r, LeiError(fmt.Errorf("checksum failed"))
 	}
 	return r, nil
 }
@@ -44,10 +44,10 @@ func ValidateLEI(lei string) (bool, error) {
 // ValidateISIN takes an ISIN (ISO 6166) as string and validates the checkdigit
 func ValidateISIN(isin string) (bool, error) {
 	if l := len(isin); l != 12 {
-		return false, fmt.Errorf("Invalid length of ISIN (length:%v)", l)
+		return false, fmt.Errorf("invalid length of ISIN (length:%v)", l)
 	}
 	if !(isA2Z(isin[0]) && isA2Z(isin[1])) {
-		return false, fmt.Errorf("Two first characters must be letters A-Z (%v)", isin[0:2])
+		return false, fmt.Errorf("first two characters must be letters A-Z (%v)", isin[0:2])
 	}
 	var isinchecksum int
 	var poslogic = 1
@@ -69,12 +69,12 @@ func ValidateISIN(isin string) (bool, error) {
 				isinchecksum += sumOfDigits(int(v - numshift))
 			}
 		} else {
-			return false, fmt.Errorf("Invalid character in ISIN string: %v", v)
+			return false, fmt.Errorf("invalid character in ISIN string: %v", v)
 		}
 		poslogic ^= 1
 	}
 	if isinchecksum%10 != 0 {
-		return false, fmt.Errorf("Checksumdigit failed: %v", isinchecksum)
+		return false, fmt.Errorf("checksum digit failed: %v", isinchecksum)
 	}
 	return true, nil
 }

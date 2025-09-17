@@ -1,8 +1,10 @@
 package finident
 
 import (
+	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base32"
+	"encoding/binary"
 	"fmt"
 	"strconv"
 	"strings"
@@ -48,14 +50,28 @@ func GenerateUTI(lei, value string) (string, error) {
 
 // GenerateUTIFromParts derives an ESMA-compliant UTI using the provided LEI and a
 // set of inputs that are hashed into the value component. When no additional parts
-// are supplied the current UTC time (nanoseconds) is used to guarantee uniqueness.
-// The resulting UTI is deterministic for a given LEI and ordered set of parts.
+// are supplied a random 32-bit prefix combined with the current UTC time (nanoseconds)
+// is used to guarantee uniqueness. The resulting UTI is deterministic for a given
+// LEI and ordered set of parts.
 func GenerateUTIFromParts(lei string, parts ...string) (string, error) {
 	if len(parts) == 0 {
-		parts = []string{strconv.FormatInt(time.Now().UTC().UnixNano(), 10)}
+		prefix, err := randomUint32Hex()
+		if err != nil {
+			return "", fmt.Errorf("failed to generate random prefix: %w", err)
+		}
+		timestamp := strconv.FormatInt(time.Now().UTC().UnixNano(), 10)
+		parts = []string{prefix + timestamp}
 	}
 	value := deriveUTIValue(parts)
 	return GenerateUTI(lei, value)
+}
+
+func randomUint32Hex() (string, error) {
+	var b [4]byte
+	if _, err := rand.Read(b[:]); err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%08X", binary.BigEndian.Uint32(b[:])), nil
 }
 
 func deriveUTIValue(parts []string) string {
