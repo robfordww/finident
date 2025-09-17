@@ -9,7 +9,7 @@ var validCFI = map[string][]string{
 	"EC": []string{"VNRE", "TU", "OPF", "BRNM"},
 	"EF": []string{"VNRE", "RETGACN", "FCPQANU", "BRNM"},
 	"EL": []string{"VNRE", "TU", "OPF", "BRNM"},
-	"ED": []string{"SPCFLM", "RNBDX", "FCPQANUD", "BRNM}"},
+	"ED": []string{"SPCFLM", "RNBDX", "FCPQANUD", "BRNM"},
 	"EY": []string{"ABCDEM", "DYM", "FVEM", "BSDGTCINM"},
 	"EM": []string{"X", "X", "X", "BRNM"},
 	// Debt

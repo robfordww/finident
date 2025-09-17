@@ -5,12 +5,12 @@ package finident
 
 import (
 	"fmt"
-	"strconv"
 )
 
 const (
 	charshift = 55
 	numshift  = 48
+	caseDiff  = 'a' - 'A'
 )
 
 // LeiError returned on error
@@ -83,24 +83,19 @@ func ValidateISIN(isin string) (bool, error) {
 // string, interpreted as a number, returns 1. Letters A-Z are converted to
 // numbers 10-34
 func Validatemod97(s string) bool {
-	if mod97([]byte(s)) != 1 {
-		return false
-	}
-	return true
+	return mod97([]byte(s)) == 1
 }
 
 // CalculateChecksum takes a string and returns the next two characters that,
 // when appended to the string, results in a "stringvalue mod 97 == 1"
 func CalculateChecksum(s string) string {
-	return strconv.Itoa(98 - ((100 * int(mod97([]byte(s)))) % 97))
+	checksum := 98 - ((100 * int(mod97([]byte(s)))) % 97)
+	return fmt.Sprintf("%02d", checksum)
 }
 
-// checks if byte is a-Z
+// checks if byte is A-Z
 func isA2Z(b byte) bool {
-	if b >= 'A' && b <= 'z' {
-		return true
-	}
-	return false
+	return b >= 'A' && b <= 'Z'
 }
 
 // Sum of digits. Also works for negative numbers; -123 => -6
@@ -119,7 +114,8 @@ func mod97(s []byte) int64 {
 			checksum += int64(r) - charshift
 		} else if r >= 'a' && r <= 'z' {
 			checksum *= 100
-			checksum += int64(r - charshift)
+			uppercase := r - caseDiff
+			checksum += int64(uppercase) - charshift
 		} else if r >= '0' && r <= '9' {
 			checksum *= 10
 			checksum += int64(r) - numshift
