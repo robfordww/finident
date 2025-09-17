@@ -49,39 +49,26 @@ func main() {
 }
 ```
 
-## Available helpers
+## API overview
 
-```go
-func ValidateLEI(lei string) (bool, error)
-func ValidateISIN(isin string) (bool, error)
-func IsValidCFI(cfi string) bool
-func GenCFICombinations() []string
-func Validatemod97(s string) bool
-func CalculateChecksum(s string) string
-```
-
-### Function reference
-
-- `ValidateLEI` verifies that the input has 20 characters, uses the allowed
-  alphanumeric set, keeps reserved positions five and six as `00`, and passes
-  the ISO 17442 mod-97 checksum. The boolean return indicates validity and the
-  error provides context when validation fails.
-- `ValidateISIN` ensures the string is exactly 12 characters, starts with two
-  uppercase letters, and satisfies the ISO 6166 checksum calculation. It returns
-  a boolean flag plus an explanatory error when the check digit or input
-  structure is invalid.
-- `IsValidCFI` checks whether a six-character CFI string matches one of the
-  ESMA-defined attribute combinations held in the embedded lookup table.
-- `GenCFICombinations` expands the ESMA taxonomy into every valid six-character
-  CFI code and returns the full set as a slice. Expect several thousand entries
-  depending on the current mapping.
-- `Validatemod97` converts alphanumeric characters to their numeric
-  representations (letters map to 10–35) and returns `true` when the value mod
-  97 equals 1. Lowercase letters are handled by normalizing to uppercase before
-  evaluation.
-- `CalculateChecksum` outputs the two-character string that must be appended to
-  the provided base so that the combined value satisfies the mod-97 checksum
-  rule (result padded to two digits as required by ISO 17442).
+- `ValidateLEI(lei string) (bool, error)` checks 20-character LEIs for uppercase
+  alphanumerics, reserved `00` positions at indices 4–5, and the ISO 17442 mod-97
+  checksum, returning a validity flag plus descriptive error.
+- `ValidateISIN(isin string) (bool, error)` validates 12-character ISINs by
+  enforcing the leading country code letters and recalculating the ISO 6166
+  check digit; failures return an explanatory error.
+- `IsValidCFI(cfi string) bool` confirms a six-character CFI matches the ESMA
+  taxonomy segments stored in the map and returns `true` only for valid
+  combinations.
+- `GenCFICombinations() []string` materializes every permitted CFI combination
+  from the ESMA mapping, yielding several thousand entries as a convenience for
+  enumeration tasks.
+- `Validatemod97(s string) bool` normalizes the input to uppercase, converts
+  letters to their 10–35 numeric equivalents, and reports whether the numeric
+  value modulo 97 equals 1.
+- `CalculateChecksum(s string) string` computes and zero-pads the two-digit
+  string that must be appended so the full value satisfies the mod-97==1 rule
+  used by LEIs.
 
 ### Notes on CFI generation
 
