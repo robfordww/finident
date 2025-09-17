@@ -1,4 +1,5 @@
-// Package finident is a toolbox for various Financial identifiers
+// Package finident is a Go toolbox for financial identifiers, covering LEI validation,
+// ISIN checksum recalculation, ISO 10962 CFI verification, and ESMA-compliant UTI generation.
 // MIT License
 // Copyright (c) 2019 robfordww
 package finident
