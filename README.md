@@ -69,6 +69,13 @@ func main() {
 - `CalculateChecksum(s string) string` computes and zero-pads the two-digit
   string that must be appended so the full value satisfies the mod-97==1 rule
   used by LEIs.
+- `GenerateUTI(lei, value string) (string, error)` concatenates a validated LEI
+  with a caller-provided value and ensures the result meets the CPMI-IOSCO/ESMA
+  guidance (upper-case alphanumerics with a maximum length of 52).
+- `GenerateUTIFromParts(lei string, parts ...string) (string, error)` derives the
+  value component deterministically (SHA-256 + base32) from trade metadata so
+  that callers can produce ESMA-compliant UTIs without hand-crafting the
+  32-character suffix.
 
 ### Notes on CFI generation
 
